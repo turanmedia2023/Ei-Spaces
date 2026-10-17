@@ -38,7 +38,7 @@
       border: 1px solid rgba(0, 255, 204, 0.3);
     }
 
-    /* НИЖНЯЯ ПАНЕЛЬ С ОДНОЙ ИКОНКОЙ ДОМИКА ПО ЦЕНТРУ */
+    /* НИЖНЯЯ ПАНЕЛЬ С ИКОНКОЙ ДОМИКА ПО ЦЕНТРУ */
     .bottom-bar-container {
       position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
       z-index: 20; display: flex; background: rgba(28, 28, 30, 0.85);
@@ -63,14 +63,15 @@
     .rooms-drawer-overlay.active { opacity: 1; pointer-events: auto; }
 
     .rooms-drawer {
-      position: fixed; bottom: -300px; left: 0; width: 100vw;
+      position: fixed; bottom: -450px; left: 0; width: 100vw;
+      max-height: 80vh;
       background: rgba(28, 28, 30, 0.95); border-radius: 24px 24px 0 0;
       box-shadow: 0 -10px 30px rgba(0,0,0,0.6); border-top: 1px solid rgba(255, 255, 255, 0.15);
       z-index: 950; transition: transform 0.35s cubic-bezier(0.1, 0.9, 0.2, 1);
-      padding: 20px 0 35px 0; box-sizing: border-box;
+      padding: 20px 0 35px 0; box-sizing: border-box; overflow-y: auto;
     }
     .rooms-drawer-overlay.active .rooms-drawer {
-      transform: translateY(-300px);
+      transform: translateY(-450px);
     }
 
     .drawer-header {
@@ -80,23 +81,25 @@
     .drawer-title { color: #fff; font-size: 16px; font-weight: 600; }
     .drawer-close { color: #0a84ff; font-size: 14px; font-weight: 600; background: none; border: none; cursor: pointer; }
 
-    .rooms-list {
-      display: flex; gap: 12px; overflow-x: auto; padding: 15px 20px 5px 20px;
-      scrollbar-width: none;
+    /* СЕТКА КОМНАТ В 2 СТОЛБЦА */
+    .rooms-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 15px 20px 5px 20px;
     }
-    .rooms-list::-webkit-scrollbar { display: none; }
 
-    .room-card {
-      min-width: 120px; background: rgba(255, 255, 255, 0.08); border-radius: 16px;
-      padding: 12px; border: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer;
+    .room-card-button {
+      background: rgba(255, 255, 255, 0.08); border-radius: 12px;
+      padding: 12px 14px; border: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer;
       text-align: center; transition: all 0.2s ease;
+      color: #fff; font-size: 14px; font-weight: 500;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
-    .room-card:active { transform: scale(0.95); }
-    .room-card.active {
-      background: rgba(10, 132, 255, 0.25); border-color: #0a84ff;
+    .room-card-button:active { transform: scale(0.96); }
+    .room-card-button.active {
+      background: rgba(10, 132, 255, 0.3); border-color: #0a84ff; font-weight: 600;
     }
-    .room-card-icon { font-size: 24px; margin-bottom: 6px; }
-    .room-card-name { color: #fff; font-size: 13px; font-weight: 500; white-space: nowrap; }
 
     /* ВСПЛЫВАЮЩАЯ КАРТОЧКА ИНФО */
     .modal-overlay {
@@ -138,7 +141,7 @@
 <body>
 
   <!-- ВЕРХНИЙ БЕЙДЖ -->
-  <div class="title-badge" id="roomTitle">Гостиная с лестницей</div>
+  <div class="title-badge" id="roomTitle">Гостиная</div>
   <div id="coords-info">Pitch: 0 | Yaw: 0</div>
   
   <div id="panorama"></div>
@@ -150,14 +153,14 @@
     </button>
   </div>
 
-  <!-- ВЫДВИЖНОЕ МЕНЮ ВСЕХ КОМНАТ -->
+  <!-- ВЫДВИЖНОЕ МЕНЮ ВСЕХ КОМНАТ (2 СТОЛБЦА) -->
   <div class="rooms-drawer-overlay" id="roomsDrawerOverlay" onclick="toggleRoomsDrawer()">
     <div class="rooms-drawer" onclick="event.stopPropagation()">
       <div class="drawer-header">
         <span class="drawer-title">Выберите комнату</span>
         <button class="drawer-close" onclick="toggleRoomsDrawer()">Готово</button>
       </div>
-      <div class="rooms-list" id="roomsList"></div>
+      <div class="rooms-grid" id="roomsList"></div>
     </div>
   </div>
 
@@ -197,11 +200,10 @@
       document.getElementById('productModal').classList.remove('active');
     }
 
-    // СПИСОК ВСЕХ КОМНАТ ВАШЕГО ПРОЕКТА
+    // СПИСОК КОМНАТ (1 ЭТАЖ)
     const scenesConfig = {
       "living_room": {
-        "title": "Гостиная с лестницей",
-        "icon": "🛋️",
+        "title": "Гостиная",
         "panorama": "my_render.jpg",
         "hotSpots": [
           {
@@ -229,34 +231,32 @@
               "desc": "Обивка из износостойкой ткани букле (состав: шерсть/хлопок). Наполнитель: пенополиуретан высокой плотности.",
               "price": "480 000 ₽"
             }
-          },
-          {
-            "pitch": 20.0,
-            "yaw": 71.0,
-            "type": "scene",
-            "text": "Подняться на 2 этаж",
-            "sceneId": "second_floor"
           }
         ]
       },
-      "second_floor": {
-        "title": "Второй этаж",
-        "icon": "🛏️",
-        "panorama": "https://pannellum.org/images/alma.jpg",
-        "hotSpots": [
-          {
-            "pitch": -5.0,
-            "yaw": 110.0,
-            "type": "scene",
-            "text": "Спуститься в Гостиную",
-            "sceneId": "living_room"
-          }
-        ]
+      "stairs": {
+        "title": "Лестница",
+        "panorama": "my_render.jpg", // Замените на файл рендера
+        "hotSpots": []
+      },
+      "hallway": {
+        "title": "Коридор",
+        "panorama": "my_render.jpg", // Замените на файл рендера
+        "hotSpots": []
       },
       "kitchen": {
         "title": "Кухня",
-        "icon": "🍳",
-        "panorama": "my_render.jpg", // Укажите имя файла панорамы кухни
+        "panorama": "my_render.jpg", // Замените на файл рендера
+        "hotSpots": []
+      },
+      "hall": {
+        "title": "Зал",
+        "panorama": "my_render.jpg", // Замените на файл рендера
+        "hotSpots": []
+      },
+      "bathroom": {
+        "title": "Санузел",
+        "panorama": "my_render.jpg", // Замените на файл рендера
         "hotSpots": []
       }
     };
@@ -288,14 +288,11 @@
 
       for (let key in scenesConfig) {
         const room = scenesConfig[key];
-        const card = document.createElement('div');
-        card.className = `room-card ${key === currentSceneId ? 'active' : ''}`;
-        card.onclick = () => selectRoom(key);
-        card.innerHTML = `
-          <div class="room-card-icon">${room.icon || '🏠'}</div>
-          <div class="room-card-name">${room.title}</div>
-        `;
-        listEl.appendChild(card);
+        const btn = document.createElement('button');
+        btn.className = `room-card-button ${key === currentSceneId ? 'active' : ''}`;
+        btn.onclick = () => selectRoom(key);
+        btn.innerText = room.title;
+        listEl.appendChild(btn);
       }
     }
 
