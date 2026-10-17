@@ -207,57 +207,120 @@
         "panorama": "my_render.jpg",
         "hotSpots": [
           {
-            "pitch": 9.4,
-            "yaw": -20.0,
-            "type": "info",
-            "text": "Стеновая панель",
-            "createTooltipFunc": openModalHandler,
-            "createTooltipArgs": {
-              "brand": "LAMINAM & КЕРАМА MARAZZI",
-              "title": "Мрамор & Деревянные рейки",
-              "desc": "Акцентная стена: крупноформатный керамогранит с текстурой Calacatta Gold и вертикальные шпонированные рейки из дуба.",
-              "price": "120 000 ₽ / кв.м"
-            }
-          },
-          {
-            "pitch": -20.0,
-            "yaw": -10.0,
-            "type": "info",
-            "text": "Модульный диван",
-            "createTooltipFunc": openModalHandler,
-            "createTooltipArgs": {
-              "brand": "B&B ITALIA",
-              "title": "Модульный диван Camaleonda",
-              "desc": "Обивка из износостойкой ткани букле (состав: шерсть/хлопок). Наполнитель: пенополиуретан высокой плотности.",
-              "price": "480 000 ₽"
-            }
+            "pitch": -16.6,
+            "yaw": 132.1,
+            "type": "scene",
+            "text": "Коридор",
+            "sceneId": "hallway"
           }
         ]
       },
       "stairs": {
         "title": "Вход",
-        "panorama": "my_render4.jpg", // Замените на файл рендера
-        "hotSpots": []
+        "panorama": "my_render4.jpg",
+        "hotSpots": [
+          {
+            "pitch": -14.7,
+            "yaw": -15.3,
+            "type": "scene",
+            "text": "Коридор",
+            "sceneId": "hallway"
+          },
+          {
+            "pitch": 2.6,
+            "yaw": -1.0,
+            "type": "scene",
+            "text": "Зал",
+            "sceneId": "hall"
+          },
+          {
+            "pitch": -2.4,
+            "yaw": 22.1,
+            "type": "scene",
+            "text": "Кухня",
+            "sceneId": "kitchen"
+          }
+        ]
       },
       "hallway": {
         "title": "Коридор",
-        "panorama": "my_render3.jpg", // Замените на файл рендера
-        "hotSpots": []
+        "panorama": "my_render3.jpg",
+        "hotSpots": [
+          {
+            "pitch": -2.6,
+            "yaw": -2.3,
+            "type": "scene",
+            "text": "Вход",
+            "sceneId": "stairs"
+          },
+          {
+            "pitch": -14.5,
+            "yaw": -41.1,
+            "type": "scene",
+            "text": "Гостиная",
+            "sceneId": "living_room"
+          },
+          {
+            "pitch": -1.9,
+            "yaw": -38.1,
+            "type": "scene",
+            "text": "Кухня",
+            "sceneId": "kitchen"
+          },
+          {
+            "pitch": -4.7,
+            "yaw": -87.3,
+            "type": "scene",
+            "text": "Санузел",
+            "sceneId": "bathroom"
+          },
+          {
+            "pitch": 4.6,
+            "yaw": -173.8,
+            "type": "scene",
+            "text": "Зал",
+            "sceneId": "hall"
+          }
+        ]
       },
       "kitchen": {
         "title": "Кухня",
-        "panorama": "my_render2.jpg", // Замените на файл рендера
-        "hotSpots": []
+        "panorama": "my_render2.jpg",
+        "hotSpots": [
+          {
+            "pitch": -1.1,
+            "yaw": -51.6,
+            "type": "scene",
+            "text": "Коридор",
+            "sceneId": "hallway"
+          }
+        ]
       },
       "hall": {
         "title": "Зал",
-        "panorama": "my_render5.jpg", // Замените на файл рендера
-        "hotSpots": []
+        "panorama": "my_render5.jpg",
+        "hotSpots": [
+          {
+            "pitch": 1.7,
+            "yaw": -2.7,
+            "type": "scene",
+            "text": "Коридор",
+            "sceneId": "hallway"
+          }
+        ]
       },
       "bathroom": {
         "title": "Санузел",
-        "panorama": "my_render6.jpg", // Замените на файл рендера
-        "hotSpots": []
+        "panorama": "my_render6.jpg",
+        "hotSpots": [
+          {
+            "pitch": 0.6,
+            "yaw": 178.5,
+            "type": "scene",
+            "text": "Коридор",
+            "sceneId": "hallway"
+          }
+        ]
       }
     };
 
