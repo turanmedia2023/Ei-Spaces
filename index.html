@@ -21,6 +21,21 @@
     /* Отключаем стандартный заголовок Pannellum */
     .pnm-title-box, .pannellum-title-box { display: none !important; }
 
+    /* ПОЛУПРОЗРАЧНОСТЬ ДЛЯ ВСЕХ ХОТСПОТОВ И ПЕРЕХОДОВ */
+    .pnm-hotspot, .pannellum-hotspot,
+    .pnm-scene, .pannellum-scene {
+      opacity: 0.5 !important; /* Начальная прозрачность 50% */
+      transition: opacity 0.3s ease, transform 0.3s ease !important; /* Плавность */
+    }
+
+    /* ПРИ НАВЕДЕНИИ / НАЖАТИИ СТАНОВЯТСЯ 100% НЕПРОЗРАЧНЫМИ */
+    .pnm-hotspot:hover, .pannellum-hotspot:hover,
+    .pnm-scene:hover, .pannellum-scene:hover,
+    .pnm-hotspot:active, .pannellum-hotspot:active {
+      opacity: 1 !important; /* Полная видимость */
+      transform: scale(1.15); /* Легкое увеличение для отклика */
+    }
+
     /* Верхний информационный бейдж комнаты */
     .title-badge {
       position: absolute; top: 15px; left: 15px; z-index: 10;
