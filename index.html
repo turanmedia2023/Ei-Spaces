@@ -24,17 +24,49 @@
     /* ПОЛУПРОЗРАЧНОСТЬ ДЛЯ ВСЕХ ХОТСПОТОВ И ПЕРЕХОДОВ */
     .pnm-hotspot, .pannellum-hotspot,
     .pnm-scene, .pannellum-scene {
-      opacity: 0.5 !important; /* Начальная прозрачность 50% */
-      transition: opacity 0.3s ease, transform 0.3s ease !important; /* Плавность */
+      opacity: 0.5 !important;
+      transition: opacity 0.3s ease, transform 0.3s ease !important;
     }
 
-    /* ПРИ НАВЕДЕНИИ / НАЖАТИИ СТАНОВЯТСЯ 100% НЕПРОЗРАЧНЫМИ */
     .pnm-hotspot:hover, .pannellum-hotspot:hover,
     .pnm-scene:hover, .pannellum-scene:hover,
     .pnm-hotspot:active, .pannellum-hotspot:active {
-      opacity: 1 !important; /* Полная видимость */
-      transform: scale(1.15); /* Легкое увеличение для отклика */
+      opacity: 1 !important;
+      transform: scale(1.15);
     }
+
+    /* ЭКРАН ВЫБОРА ПРОЕКТА (СТАРТОВОЕ МЕНЮ) */
+    .project-selector-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(20px);
+      z-index: 2000; display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.4s ease;
+    }
+    .project-selector-overlay.hidden {
+      opacity: 0; pointer-events: none;
+    }
+    .project-selector-card {
+      background: rgba(28, 28, 30, 0.95); width: 85%; max-width: 360px;
+      padding: 30px 20px; border-radius: 28px; box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15); text-align: center;
+    }
+    .project-selector-title {
+      color: #fff; font-size: 20px; font-weight: 700; margin-bottom: 8px;
+    }
+    .project-selector-subtitle {
+      color: #8e8e93; font-size: 13px; margin-bottom: 24px;
+    }
+    .project-buttons-list {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .project-btn {
+      background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff; padding: 16px; border-radius: 16px; font-size: 16px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: space-between;
+    }
+    .project-btn:active { transform: scale(0.97); }
+    .project-btn:hover { background: rgba(10, 132, 255, 0.25); border-color: #0a84ff; }
+    .project-arrow { color: #0a84ff; font-size: 18px; }
 
     /* Верхний информационный бейдж комнаты */
     .title-badge {
@@ -52,6 +84,16 @@
       border-radius: 10px; font-size: 12px; font-family: monospace;
       border: 1px solid rgba(0, 255, 204, 0.3);
     }
+
+    /* КНОПКА СМЕНЫ ПРОЕКТА В ВЕРХНЕМ УГЛУ (РЯДОМ С БЕЙДЖЕМ) */
+    .switch-project-btn {
+      position: absolute; top: 15px; right: 110px; z-index: 10;
+      background: rgba(0, 0, 0, 0.65); color: #0a84ff; padding: 8px 14px;
+      border-radius: 20px; font-size: 13px; backdrop-filter: blur(10px);
+      border: 1px solid rgba(10, 132, 255, 0.3); font-weight: 600;
+      cursor: pointer; transition: all 0.2s ease;
+    }
+    .switch-project-btn:active { transform: scale(0.95); }
 
     /* НИЖНЯЯ ПАНЕЛЬ С ИКОНКОЙ ДОМИКА ПО ЦЕНТРУ */
     .bottom-bar-container {
@@ -115,53 +157,36 @@
     .room-card-button.active {
       background: rgba(10, 132, 255, 0.3); border-color: #0a84ff; font-weight: 600;
     }
-
-    /* ВСПЛЫВАЮЩАЯ КАРТОЧКА ИНФО */
-    .modal-overlay {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(8px);
-      z-index: 1000; display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
-    }
-    .modal-overlay.active { opacity: 1; pointer-events: auto; }
-
-    .modal-card {
-      background: rgba(28, 28, 30, 0.95); color: #fff; width: 85%; max-width: 320px;
-      padding: 20px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-      border: 1px solid rgba(255, 255, 255, 0.12); transform: scale(0.9);
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    .modal-overlay.active .modal-card { transform: scale(1); }
-
-    .modal-brand {
-      font-size: 11px; text-transform: uppercase;
-      color: #0a84ff; font-weight: 700; margin-bottom: 4px; letter-spacing: 1px;
-    }
-    .modal-title { margin: 0 0 8px 0; font-size: 18px; font-weight: 600; color: #ffffff; }
-    .modal-desc { margin: 0 0 16px 0; font-size: 13px; color: #a1a1a6; line-height: 1.45; }
-    .modal-price-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 16px;
-    }
-    .modal-price-label { font-size: 12px; color: #8e8e93; }
-    .modal-price-value { font-size: 16px; font-weight: 700; color: #30d158; }
-
-    .modal-close-btn {
-      width: 100%; padding: 12px; background: #0a84ff; border: none;
-      color: #ffffff; font-weight: 600; border-radius: 14px; font-size: 14px;
-      cursor: pointer;
-    }
   </style>
 </head>
 <body>
 
-  <!-- ВЕРХНИЙ БЕЙДЖ -->
-  <div class="title-badge" id="roomTitle">Гостиная</div>
+  <!-- ЭКРАН ВЫБОРА ПРОЕКТА (СТАРТОВОЕ МЕНЮ) -->
+  <div class="project-selector-overlay" id="projectSelector">
+    <div class="project-selector-card">
+      <div class="project-selector-title">Выберите проект</div>
+      <div class="project-selector-subtitle">Доступные 3D панорамные туры</div>
+      <div class="project-buttons-list">
+        <button class="project-btn" onclick="loadProject('house')">
+          <span>🏠 Частный дом</span>
+          <span class="project-arrow">›</span>
+        </button>
+        <button class="project-btn" onclick="loadProject('salon')">
+          <span>🏛️ Салон</span>
+          <span class="project-arrow">›</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ВЕРХНИЙ БЕЙДЖ И КНОПКА СМЕНЫ ПРОЕКТА -->
+  <div class="title-badge" id="roomTitle">Загрузка...</div>
+  <button class="switch-project-btn" onclick="openProjectSelector()">Проекты</button>
   <div id="coords-info">Pitch: 0 | Yaw: 0</div>
   
   <div id="panorama"></div>
 
-  <!-- НИЖНЯЯ ПАНЕЛЬ: ТОЛЬКО КНОПКА ВЫБОРА КОМНАТ -->
+  <!-- НИЖНЯЯ ПАНЕЛЬ: КНОПКА ВЫБОРА КОМНАТ -->
   <div class="bottom-bar-container">
     <button class="bar-btn" onclick="toggleRoomsDrawer()">
       🏠
@@ -172,26 +197,10 @@
   <div class="rooms-drawer-overlay" id="roomsDrawerOverlay" onclick="toggleRoomsDrawer()">
     <div class="rooms-drawer" onclick="event.stopPropagation()">
       <div class="drawer-header">
-        <span class="drawer-title">Выберите комнату</span>
+        <span class="drawer-title">Выберите помещение</span>
         <button class="drawer-close" onclick="toggleRoomsDrawer()">Готово</button>
       </div>
       <div class="rooms-grid" id="roomsList"></div>
-    </div>
-  </div>
-
-  <!-- ШАБЛОН КАРТОЧКИ ИНФО -->
-  <div class="modal-overlay" id="productModal">
-    <div class="modal-card">
-      <div class="modal-brand" id="mBrand">БРЕНД</div>
-      <div class="modal-title" id="mTitle">Название</div>
-      <div class="modal-desc" id="mDesc">Описание...</div>
-      
-      <div class="modal-price-row">
-        <span class="modal-price-label">Ориентир цены:</span>
-        <span class="modal-price-value" id="mPrice">0 ₽</span>
-      </div>
-
-      <button class="modal-close-btn" onclick="closeModal()">Закрыть</button>
     </div>
   </div>
 
@@ -199,173 +208,243 @@
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    function openModalHandler(hotSpotDiv, args) {
-      hotSpotDiv.classList.add('pnm-info');
-      hotSpotDiv.addEventListener('click', function(e) {
-        e.stopPropagation();
-        document.getElementById('mBrand').innerText = args.brand;
-        document.getElementById('mTitle').innerText = args.title;
-        document.getElementById('mDesc').innerText = args.desc;
-        document.getElementById('mPrice').innerText = args.price;
-        document.getElementById('productModal').classList.add('active');
-      });
-    }
+    // БАЗЫ ДАННЫХ ОБОИХ ПРОЕКТОВ
+    const projectsData = {
+      // ПРОЕКТ 1: ЧАСТНЫЙ ДОМ (со старыми хотспотами)
+      "house": {
+        "firstScene": "living_room",
+        "scenes": {
+          "living_room": {
+            "title": "Гостиная",
+            "panorama": "my_render.jpg",
+            "hotSpots": [
+              {
+                "pitch": -16.6,
+                "yaw": 132.1,
+                "type": "scene",
+                "text": "Коридор",
+                "sceneId": "hallway"
+              }
+            ]
+          },
+          "stairs": {
+            "title": "Вход",
+            "panorama": "my_render4.jpg",
+            "hotSpots": [
+              {
+                "pitch": -14.7,
+                "yaw": -15.3,
+                "type": "scene",
+                "text": "Коридор",
+                "sceneId": "hallway"
+              },
+              {
+                "pitch": 2.6,
+                "yaw": -1.0,
+                "type": "scene",
+                "text": "Зал",
+                "sceneId": "hall"
+              },
+              {
+                "pitch": -2.4,
+                "yaw": 22.1,
+                "type": "scene",
+                "text": "Кухня",
+                "sceneId": "kitchen"
+              }
+            ]
+          },
+          "hallway": {
+            "title": "Коридор",
+            "panorama": "my_render3.jpg",
+            "hotSpots": [
+              {
+                "pitch": -2.6,
+                "yaw": -2.3,
+                "type": "scene",
+                "text": "Вход",
+                "sceneId": "stairs"
+              },
+              {
+                "pitch": -18.4,
+                "yaw": 43.8,
+                "type": "scene",
+                "text": "Гостиная",
+                "sceneId": "living_room"
+              },
+              {
+                "pitch": -1.9,
+                "yaw": -38.1,
+                "type": "scene",
+                "text": "Кухня",
+                "sceneId": "kitchen"
+              },
+              {
+                "pitch": -4.7,
+                "yaw": -87.3,
+                "type": "scene",
+                "text": "Санузел",
+                "sceneId": "bathroom"
+              },
+              {
+                "pitch": 4.6,
+                "yaw": -173.8,
+                "type": "scene",
+                "text": "Зал",
+                "sceneId": "hall"
+              }
+            ]
+          },
+          "kitchen": {
+            "title": "Кухня",
+            "panorama": "my_render2.jpg",
+            "hotSpots": [
+              {
+                "pitch": -1.1,
+                "yaw": -51.6,
+                "type": "scene",
+                "text": "Коридор",
+                "sceneId": "hallway"
+              }
+            ]
+          },
+          "hall": {
+            "title": "Зал",
+            "panorama": "my_render5.jpg",
+            "hotSpots": [
+              {
+                "pitch": 1.7,
+                "yaw": -2.7,
+                "type": "scene",
+                "text": "Коридор",
+                "sceneId": "hallway"
+              }
+            ]
+          },
+          "bathroom": {
+            "title": "Санузел",
+            "panorama": "my_render6.jpg",
+            "hotSpots": [
+              {
+                "pitch": 0.6,
+                "yaw": 178.5,
+                "type": "scene",
+                "text": "Коридор",
+                "sceneId": "hallway"
+              }
+            ]
+          }
+        }
+      },
 
-    function closeModal() {
-      document.getElementById('productModal').classList.remove('active');
-    }
-
-    // СПИСОК КОМНАТ (1 ЭТАЖ)
-    const scenesConfig = {
-      "living_room": {
-        "title": "Гостиная",
-        "panorama": "my_render.jpg",
-        "hotSpots": [
-          {
-            "pitch": -16.6,
-            "yaw": 132.1,
-            "type": "scene",
-            "text": "Коридор",
-            "sceneId": "hallway"
-          }
-        ]
-      },
-      "stairs": {
-        "title": "Вход",
-        "panorama": "my_render4.jpg",
-        "hotSpots": [
-          {
-            "pitch": -14.7,
-            "yaw": -15.3,
-            "type": "scene",
-            "text": "Коридор",
-            "sceneId": "hallway"
+      // ПРОЕКТ 2: САЛОН (новые сферы с Sphere 1 до Sphere 6, без хотспотов)
+      "salon": {
+        "firstScene": "sphere_1",
+        "scenes": {
+          "sphere_1": {
+            "title": "Зона 1",
+            "panorama": "Sphere 1.jpg",
+            "hotSpots": []
           },
-          {
-            "pitch": 2.6,
-            "yaw": -1.0,
-            "type": "scene",
-            "text": "Зал",
-            "sceneId": "hall"
+          "sphere_2": {
+            "title": "Зона 2",
+            "panorama": "Sphere 2.jpg",
+            "hotSpots": []
           },
-          {
-            "pitch": -2.4,
-            "yaw": 22.1,
-            "type": "scene",
-            "text": "Кухня",
-            "sceneId": "kitchen"
-          }
-        ]
-      },
-      "hallway": {
-        "title": "Коридор",
-        "panorama": "my_render3.jpg",
-        "hotSpots": [
-          {
-            "pitch": -2.6,
-            "yaw": -2.3,
-            "type": "scene",
-            "text": "Вход",
-            "sceneId": "stairs"
+          "sphere_3": {
+            "title": "Зона 3",
+            "panorama": "Sphere 3.jpg",
+            "hotSpots": []
           },
-          {
-            "pitch": -18.4,
-            "yaw": 43.8,
-            "type": "scene",
-            "text": "Гостиная",
-            "sceneId": "living_room"
+          "sphere_4": {
+            "title": "Зона 4",
+            "panorama": "Sphere 4.jpg",
+            "hotSpots": []
           },
-          {
-            "pitch": -1.9,
-            "yaw": -38.1,
-            "type": "scene",
-            "text": "Кухня",
-            "sceneId": "kitchen"
+          "sphere_5": {
+            "title": "Зона 5",
+            "panorama": "Sphere 5.jpg",
+            "hotSpots": []
           },
-          {
-            "pitch": -4.7,
-            "yaw": -87.3,
-            "type": "scene",
-            "text": "Санузел",
-            "sceneId": "bathroom"
-          },
-          {
-            "pitch": 4.6,
-            "yaw": -173.8,
-            "type": "scene",
-            "text": "Зал",
-            "sceneId": "hall"
+          "sphere_6": {
+            "title": "Зона 6",
+            "panorama": "Sphere 6.jpg",
+            "hotSpots": []
           }
-        ]
-      },
-      "kitchen": {
-        "title": "Кухня",
-        "panorama": "my_render2.jpg",
-        "hotSpots": [
-          {
-            "pitch": -1.1,
-            "yaw": -51.6,
-            "type": "scene",
-            "text": "Коридор",
-            "sceneId": "hallway"
-          }
-        ]
-      },
-      "hall": {
-        "title": "Зал",
-        "panorama": "my_render5.jpg",
-        "hotSpots": [
-          {
-            "pitch": 1.7,
-            "yaw": -2.7,
-            "type": "scene",
-            "text": "Коридор",
-            "sceneId": "hallway"
-          }
-        ]
-      },
-      "bathroom": {
-        "title": "Санузел",
-        "panorama": "my_render6.jpg",
-        "hotSpots": [
-          {
-            "pitch": 0.6,
-            "yaw": 178.5,
-            "type": "scene",
-            "text": "Коридор",
-            "sceneId": "hallway"
-          }
-        ]
+        }
       }
     };
 
-    function getPannellumScenes() {
-      const result = {};
-      for (let sceneId in scenesConfig) {
-        result[sceneId] = {
-          "panorama": scenesConfig[sceneId].panorama,
-          "hotSpots": scenesConfig[sceneId].hotSpots
-        };
+    let currentProjectKey = null;
+    let viewer = null;
+
+    // Функция запуска выбранного проекта
+    function loadProject(projectKey) {
+      currentProjectKey = projectKey;
+      const proj = projectsData[projectKey];
+
+      // Скрываем стартовое окно выбора
+      document.getElementById('projectSelector').classList.add('hidden');
+
+      // Инициализируем или переключаем панорамный вьювер
+      if (!viewer) {
+        viewer = pannellum.viewer('panorama', {
+          "default": {
+            "firstScene": proj.firstScene,
+            "autoLoad": true,
+            "showControls": false
+          },
+          "scenes": proj.scenes
+        });
+
+        // Отслеживаем смену сцены для обновления заголовка
+        viewer.on('scenechange', function(sceneId) {
+          const activeProj = projectsData[currentProjectKey];
+          if (activeProj && activeProj.scenes[sceneId]) {
+            document.getElementById('roomTitle').innerText = activeProj.scenes[sceneId].title;
+          }
+        });
+      } else {
+        // Если вьювер уже был создан, переконфигурируем под новый проект
+        // Уничтожаем старый инстанс и создаем заново для корректной смены набора сцен
+        document.getElementById('panorama').innerHTML = '';
+        viewer = pannellum.viewer('panorama', {
+          "default": {
+            "firstScene": proj.firstScene,
+            "autoLoad": true,
+            "showControls": false
+          },
+          "scenes": proj.scenes
+        });
+
+        viewer.on('scenechange', function(sceneId) {
+          const activeProj = projectsData[currentProjectKey];
+          if (activeProj && activeProj.scenes[sceneId]) {
+            document.getElementById('roomTitle').innerText = activeProj.scenes[sceneId].title;
+          }
+        });
       }
-      return result;
+
+      // Устанавливаем заголовок первой комнаты
+      document.getElementById('roomTitle').innerText = proj.scenes[proj.firstScene].title;
     }
 
-    const viewer = pannellum.viewer('panorama', {
-      "default": {
-        "firstScene": "living_room",
-        "autoLoad": true,
-        "showControls": false
-      },
-      "scenes": getPannellumScenes()
-    });
+    // Открыть стартовое меню выбора проектов
+    function openProjectSelector() {
+      document.getElementById('projectSelector').classList.remove('hidden');
+    }
 
+    // Отрисовка списка комнат в выдвижной шторке для текущего проекта
     function renderRoomsMenu() {
+      if (!currentProjectKey) return;
       const listEl = document.getElementById('roomsList');
       listEl.innerHTML = '';
-      const currentSceneId = viewer.getScene() || 'living_room';
+      
+      const scenes = projectsData[currentProjectKey].scenes;
+      const currentSceneId = viewer.getScene();
 
-      for (let key in scenesConfig) {
-        const room = scenesConfig[key];
+      for (let key in scenes) {
+        const room = scenes[key];
         const btn = document.createElement('button');
         btn.className = `room-card-button ${key === currentSceneId ? 'active' : ''}`;
         btn.onclick = () => selectRoom(key);
@@ -375,6 +454,7 @@
     }
 
     function toggleRoomsDrawer() {
+      if (!currentProjectKey) return;
       renderRoomsMenu();
       document.getElementById('roomsDrawerOverlay').classList.toggle('active');
     }
@@ -384,13 +464,9 @@
       toggleRoomsDrawer();
     }
 
-    viewer.on('scenechange', function(sceneId) {
-      if (scenesConfig[sceneId]) {
-        document.getElementById('roomTitle').innerText = scenesConfig[sceneId].title;
-      }
-    });
-
+    // Отслеживание координат клика для настройки будущих хотспотов салона
     document.getElementById('panorama').addEventListener('click', function(e) {
+      if (!viewer) return;
       const coords = viewer.mouseEventToCoords(e);
       if (coords) {
         document.getElementById('coords-info').innerText = `Pitch: ${coords[0].toFixed(1)} | Yaw: ${coords[1].toFixed(1)}`;
