@@ -386,44 +386,36 @@
       // Скрываем стартовое окно выбора
       document.getElementById('projectSelector').classList.add('hidden');
 
-      // Инициализируем или переключаем панорамный вьювер
-      if (!viewer) {
-        viewer = pannellum.viewer('panorama', {
-          "default": {
-            "firstScene": proj.firstScene,
-            "autoLoad": true,
-            "showControls": false
-          },
-          "scenes": proj.scenes
-        });
-
-        // Отслеживаем смену сцены для обновления заголовка
-        viewer.on('scenechange', function(sceneId) {
-          const activeProj = projectsData[currentProjectKey];
-          if (activeProj && activeProj.scenes[sceneId]) {
-            document.getElementById('roomTitle').innerText = activeProj.scenes[sceneId].title;
-          }
-        });
-      } else {
-        // Если вьювер уже был создан, переконфигурируем под новый проект
-        // Уничтожаем старый инстанс и создаем заново для корректной смены набора сцен
-        document.getElementById('panorama').innerHTML = '';
-        viewer = pannellum.viewer('panorama', {
-          "default": {
-            "firstScene": proj.firstScene,
-            "autoLoad": true,
-            "showControls": false
-          },
-          "scenes": proj.scenes
-        });
-
-        viewer.on('scenechange', function(sceneId) {
-          const activeProj = projectsData[currentProjectKey];
-          if (activeProj && activeProj.scenes[sceneId]) {
-            document.getElementById('roomTitle').innerText = activeProj.scenes[sceneId].title;
-          }
-        });
+      // Если вьювер уже существовал, полностью уничтожаем его перед переключением
+      if (viewer) {
+        try {
+          viewer.destroy();
+        } catch (e) {
+          console.log(e);
+        }
+        viewer = null;
       }
+
+      // Очищаем контейнер панорамы
+      document.getElementById('panorama').innerHTML = '';
+
+      // Создаем новый вьювер для выбранного проекта
+      viewer = pannellum.viewer('panorama', {
+        "default": {
+          "firstScene": proj.firstScene,
+          "autoLoad": true,
+          "showControls": false
+        },
+        "scenes": proj.scenes
+      });
+
+      // Отслеживаем смену сцены для обновления заголовка
+      viewer.on('scenechange', function(sceneId) {
+        const activeProj = projectsData[currentProjectKey];
+        if (activeProj && activeProj.scenes[sceneId]) {
+          document.getElementById('roomTitle').innerText = activeProj.scenes[sceneId].title;
+        }
+      });
 
       // Устанавливаем заголовок первой комнаты
       document.getElementById('roomTitle').innerText = proj.scenes[proj.firstScene].title;
